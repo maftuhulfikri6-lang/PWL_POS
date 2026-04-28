@@ -3,17 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\UserModel;
-use Illuminate\Http\Request; // Tambahkan ini agar standar controller lengkap
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
     public function index()
     {
-        // Mencari user dengan ID 20. 
-        // Jika data tidak ditemukan, maka fungsi abort(404) akan dijalankan.
-        $user = UserModel::findOr(20, ['username', 'nama'], function () {
-            abort(404);
-        });
+        // Mencari data pertama dengan username 'manager9'
+        // Jika tidak ada, otomatis melempar error 404
+        $user = UserModel::where('username', 'manager9')->firstOrFail();
 
         return view('user', ['data' => $user]);
     }
