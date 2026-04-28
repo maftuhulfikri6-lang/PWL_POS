@@ -10,19 +10,24 @@ class UserController extends Controller
 {
     public function index()
     {
-        // 1. Membuat instance objek baru di memori jika 'manager33' tidak ditemukan
-        $user = UserModel::firstOrNew(
-            [
-                'username' => 'manager33',
-                'nama' => 'Manager Tiga Tiga',
-                'password' => Hash::make('12345'),
-                'level_id' => 2
-            ],
-        );
+        // Ganti create() menjadi firstOrCreate agar tidak error duplikat
+        // Pakai username yang unik, misalnya 'manager_baru_1'
+        $user = UserModel::firstOrCreate([
+            'username' => 'manager_baru_1',
+            'nama' => 'Manager Baru Satu',
+            'password' => Hash::make('12345'),
+            'level_id' => 2,
+        ]);
 
-        // 2. Menyimpan objek tersebut dari memori ke database secara permanen
+        // Simulasi perubahan data untuk mengetes wasChanged()
+        $user->username = 'manager_baru_updated';
+        
+        // Simpan ke database
         $user->save();
 
-        return view('user', ['data' => $user]);
+        // Cek riwayat perubahan setelah proses save()
+        // Karena username diubah dari 'manager_baru_1' ke 'manager_baru_updated',
+        // maka hasil wasChanged() pasti true.
+        dd($user->wasChanged()); 
     }
 }
