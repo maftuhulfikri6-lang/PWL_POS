@@ -9,10 +9,10 @@ class UserController extends Controller
 {
     public function index()
     {
-        // Mencari data pertama dengan username 'manager9'
-        // Jika tidak ada, otomatis melempar error 404
-        $user = UserModel::where('username', 'manager9')->firstOrFail();
+    // Menghitung jumlah user dengan level_id = 2
+    $user = UserModel::where('level_id', 2)->count();
 
-        return view('user', ['data' => $user]);
-    }
+    // Mengirim hasil hitungan (angka) ke view
+    return view('user', ['data' => $user]);
 }
+    }
