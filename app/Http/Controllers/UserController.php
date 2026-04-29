@@ -8,26 +8,52 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index() 
     {
-        // Ganti create() menjadi firstOrCreate agar tidak error duplikat
-        // Pakai username yang unik, misalnya 'manager_baru_1'
-        $user = UserModel::firstOrCreate([
-            'username' => 'manager_baru_1',
-            'nama' => 'Manager Baru Satu',
-            'password' => Hash::make('12345'),
-            'level_id' => 2,
+        // Menampilkan semua data untuk tabel utama
+        $user = UserModel::all();
+        return view('user', ['data' => $user]);
+    }
+
+    public function tambah() 
+    {
+        return view('user_tambah');
+    }
+
+    public function tambah_simpan(Request $request) 
+    {
+        UserModel::create([
+            'username' => $request->username,
+            'nama'     => $request->nama,
+            'password' => Hash::make($request->password), 
+            'level_id' => $request->level_id
         ]);
+        return redirect('/user');
+    }
 
-        // Simulasi perubahan data untuk mengetes wasChanged()
-        $user->username = 'manager_baru_updated';
-        
-        // Simpan ke database
-        $user->save();
+    public function ubah(string $id) 
+    {
+        // PENTING: Gunakan find() agar yang dikirim data TUNGGAL, bukan koleksi
+        $user = UserModel::find($id);
+        return view('user_ubah', ['data' => $user]);
+    }
 
-        // Cek riwayat perubahan setelah proses save()
-        // Karena username diubah dari 'manager_baru_1' ke 'manager_baru_updated',
-        // maka hasil wasChanged() pasti true.
-        dd($user->wasChanged()); 
+    public function ubah_simpan(string $id, Request $request) 
+    {
+        $user = UserModel::find($id);
+        $user->username = $request->username;
+        $user->nama = $request->nama;
+        $user->password = Hash::make($request->password);
+        $user->level_id = $request->level_id;
+        $user->save(); 
+
+        return redirect('/user');
+    }
+
+    public function hapus(string $id) 
+    {
+        $user = UserModel::find($id);
+        if($user) { $user->delete(); }
+        return redirect('/user');
     }
 }
