@@ -2,18 +2,20 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+// Tambahkan ini jika file LevelModel ada di folder yang sama
+use App\Models\LevelModel; 
 
 class UserModel extends Model
 {
-    use HasFactory;
-
-    protected $table = 'm_user';        // Mendefinisikan nama tabel
-    protected $primaryKey = 'user_id';  // Mendefinisikan primary key
-
-    /**
-     * Atribut yang dapat diisi secara massal (mass assignable).
-     */
+    protected $table = 'm_user';
+    protected $primaryKey = 'user_id';
     protected $fillable = ['level_id', 'username', 'nama', 'password'];
+
+    // Mendefinisikan relasi: Setiap User 'milik' satu Level
+    public function level(): BelongsTo
+    {
+        return $this->belongsTo(LevelModel::class, 'level_id', 'level_id');
+    }
 }

@@ -8,29 +8,30 @@
     <a href="{{ url('/user') }}">Kembali</a>
     <br><br>
 
-    {{-- Pastikan route ini sesuai dengan yang ada di web.php --}}
+    {{-- Form Action mengarah ke route PUT di web.php --}}
     <form method="post" action="{{ url('/user/ubah_simpan/' . $data->user_id) }}">
         {{ csrf_field() }}
-        {{ method_field('PUT') }} {{-- WAJIB untuk method spoofing di Laravel --}}
+        {{ method_field('PUT') }}
 
         <label>Username</label>
-        <input type="text" name="username" placeholder="Masukkan Username" value="{{ $data->username }}">
+        <input type="text" name="username" value="{{ $data->username }}" required>
         <br>
 
         <label>Nama</label>
-        <input type="text" name="nama" placeholder="Masukkan Nama" value="{{ $data->nama }}">
+        <input type="text" name="nama" value="{{ $data->nama }}" required>
         <br>
 
         <label>Password</label>
-        {{-- Jangan tampilkan password asli di value demi keamanan, biarkan kosong jika tidak ingin diubah --}}
-        <input type="password" name="password" placeholder="Masukkan Password Baru">
+        {{-- Kosongkan saja agar tidak menimpa password lama jika tidak diisi --}}
+        <input type="password" name="password" placeholder="Isi jika ingin ubah password">
         <br>
 
         <label>Level ID</label>
-        <input type="number" name="level_id" placeholder="Masukkan ID Level" value="{{ $data->level_id }}">
+        {{-- Menggunakan number sesuai praktikum --}}
+        <input type="number" name="level_id" value="{{ $data->level_id }}" required>
         <br><br>
 
-        <input type="submit" class="btn btn-success" value="Ubah">
+        <button type="submit">Simpan Perubahan</button>
     </form>
 </body>
 </html>
