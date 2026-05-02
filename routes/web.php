@@ -2,12 +2,18 @@
 
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\LevelController;
-use App\Http\Controllers\UserController; 
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\WelcomeController; // Pastikan ini ditambahkan
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+*/
+
+// Mengubah route '/' untuk menggunakan WelcomeController sesuai gambar
+Route::get('/', [WelcomeController::class, 'index']);
 
 Route::get('/level', [LevelController::class, 'index']);
 Route::get('/kategori', [KategoriController::class, 'index']);
