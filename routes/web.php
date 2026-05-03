@@ -1,34 +1,19 @@
 <?php
 
-use App\Http\Controllers\KategoriController;
-use App\Http\Controllers\LevelController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\WelcomeController; // Pastikan ini ditambahkan
+use App\Http\Controllers\UserController; // Pastikan baris ini ada
+use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-*/
-
-// Mengubah route '/' untuk menggunakan WelcomeController sesuai gambar
 Route::get('/', [WelcomeController::class, 'index']);
 
-Route::get('/level', [LevelController::class, 'index']);
-Route::get('/kategori', [KategoriController::class, 'index']);
-
-// --- Bagian CRUD User ---
-Route::get('/user', [UserController::class, 'index']);
-
-// Penting: Taruh route /tambah DI ATAS route yang menggunakan {id} 
-// agar 'tambah' tidak dianggap sebagai sebuah ID
-Route::get('/user/tambah', [UserController::class, 'tambah']);
-Route::post('/user/tambah_simpan', [UserController::class, 'tambah_simpan']);
-
-// Route Ubah (Update)
-Route::get('/user/ubah/{id}', [UserController::class, 'ubah']);
-Route::put('/user/ubah_simpan/{id}', [UserController::class, 'ubah_simpan']);
-
-// Route Hapus (Delete)
-Route::get('/user/hapus/{id}', [UserController::class, 'hapus']);
+// Group rute untuk proses CRUD user
+Route::group(['prefix' => 'user'], function () {
+    Route::get('/', [UserController::class, 'index']);          // menampilkan halaman awal user
+    Route::post('/list', [UserController::class, 'list']);      // menampilkan data user dalam bentuk json untuk datatables
+    Route::get('/create', [UserController::class, 'create']);    // menampilkan halaman form tambah user
+    Route::post('/', [UserController::class, 'store']);         // menyimpan data user baru
+    Route::get('/{id}', [UserController::class, 'show']);       // menampilkan detail user
+    Route::get('/{id}/edit', [UserController::class, 'edit']);  // menampilkan halaman form edit user
+    Route::put('/{id}', [UserController::class, 'update']);     // menyimpan perubahan data user
+    Route::delete('/{id}', [UserController::class, 'destroy']); // menghapus data user
+});
