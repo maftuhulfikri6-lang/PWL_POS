@@ -14,7 +14,9 @@ Route::get('/', [WelcomeController::class, 'index']);
 Route::group(['prefix' => 'user'], function () {
     Route::get('/', [UserController::class, 'index']);          
     Route::post('/list', [UserController::class, 'list']);      
-    Route::get('/create', [UserController::class, 'create']);    
+    Route::get('/create', [UserController::class, 'create']); 
+    route::get('/create_ajax', [UserController::class, 'createAjax']);
+    route::post('/ajax', [UserController::class, 'store_ajax']);   
     Route::post('/', [UserController::class, 'store']);         
     Route::get('/{id}', [UserController::class, 'show']);       
     Route::get('/{id}/edit', [UserController::class, 'edit']);  

@@ -18,6 +18,9 @@
     <link rel="stylesheet" href="{{ url('adminlte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ url('adminlte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
 
+    {{-- sweetalert2 --}}
+    <link rel="stylesheet" href="{{ url('adminlte/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
+
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ url('adminlte/dist/css/adminlte.min.css') }}">
 
@@ -80,6 +83,13 @@
 <script src="{{ url('adminlte/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
 <script src="{{ url('adminlte/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
 
+{{-- jquery validation --}}
+<script src="{{ url('adminlte/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
+<script src="{{ url('adminlte/plugins/jquery-validation/additional-methods.min.js') }}"></script>
+
+{{-- sweetalert2 --}}
+<script src="{{ url('adminlte/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+ 
 <!-- AdminLTE App -->
 <script src="{{ url('adminlte/dist/js/adminlte.min.js') }}"></script>
 
