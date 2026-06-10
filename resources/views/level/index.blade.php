@@ -5,16 +5,13 @@
     <div class="card-header">
         <h3 class="card-title">{{ $page->title }}</h3>
         <div class="card-tools">
-            <a class="btn btn-sm btn-primary mt-1" href="{{ url('level/create') }}">Tambah</a>
+            <a class="btn btn-sm btn-primary mt-1" href="{{ url('user/create') }}">Tambah</a>
+            <button onclick="modalAction('{{ url('/level/create_ajax') }}')" class="btn btn-sm btn-success mt-1">Tambah (AJAX)</button>
         </div>
     </div>
     <div class="card-body">
-        @if (session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
-        @if (session('error'))
-            <div class="alert alert-danger">{{ session('error') }}</div>
-        @endif
+        @if (session('success')) <div class="alert alert-success">{{ session('success') }}</div> @endif
+        @if (session('error')) <div class="alert alert-danger">{{ session('error') }}</div> @endif
 
         <table class="table table-bordered table-striped table-hover table-sm" id="table_level">
             <thead>
@@ -28,12 +25,16 @@
         </table>
     </div>
 </div>
+
+<div id="myModal" class="modal fade animate easeInBack" tabindex="-1" role="dialog" aria-hidden="true"></div>
 @endsection
 
 @push('js')
 <script>
+    var tableLevel;
+    
     $(document).ready(function() {
-        var dataLevel = $('#table_level').DataTable({
+        tableLevel = $('#table_level').DataTable({
             serverSide: true,
             ajax: {
                 "url": "{{ url('level/list') }}",
@@ -68,5 +69,12 @@
             ]
         });
     });
+
+    // Fungsi global harus berada di luar $(document).ready
+    function modalAction(url = ''){
+        $('#myModal').load(url, function(){
+            $('#myModal').modal('show');
+        });
+    }
 </script>
 @endpush
