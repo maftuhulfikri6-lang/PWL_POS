@@ -16,6 +16,8 @@ Route::pattern('id', '[0-9]+'); // Aturan global untuk ID berupa angka
 Route::get('login', [AuthController::class, 'login'])->name('login');
 Route::post('login', [AuthController::class, 'postlogin']);
 Route::get('logout', [AuthController::class, 'logout'])->middleware('auth');
+Route::get('/register', [AuthController::class, 'register']);
+Route::post('/register', [AuthController::class, 'storeRegister']);
 
 Route::middleware(['auth'])->group(function () {
 
@@ -113,6 +115,8 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/{id}/edit', [BarangController::class, 'edit']);
             Route::put('/{id}', [BarangController::class, 'update']);
             Route::delete('/{id}', [BarangController::class, 'destroy']);
+            Route::get('/import', [BarangController::class, 'import']);
+            Route::post('/import_ajax', [BarangController::class, 'import_ajax']);
         });
 
         // Group rute untuk Stok Barang

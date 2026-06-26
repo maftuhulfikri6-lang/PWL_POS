@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\UserModel;
+use App\Models\LevelModel;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -34,6 +37,37 @@ class AuthController extends Controller
         }
         return redirect('login');
     }
+
+public function register()
+{
+    $level = LevelModel::all();
+    
+    // Siapkan object untuk breadcrumb
+    $breadcrumb = (object) [
+        'title' => 'Registrasi Pengguna',
+        'list' => ['Home', 'Registrasi']
+    ];
+
+    return view('auth.register', compact('level', 'breadcrumb'));
+}
+public function storeRegister(Request $request)
+{
+    $request->validate([
+        'username' => 'required|unique:m_user,username',
+        'nama' => 'required',
+        'password' => 'required|min:6|confirmed',
+        'level_id' => 'required'
+    ]);
+
+    UserModel::create([
+        'username' => $request->username,
+        'nama' => $request->nama,
+        'password' => Hash::make($request->password),
+        'level_id' => $request->level_id
+    ]);
+
+    return redirect('login')->with('success', 'Registrasi berhasil');
+}
 
     public function logout(Request $request)
     {
